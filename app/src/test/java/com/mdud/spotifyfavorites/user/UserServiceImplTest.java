@@ -1,7 +1,5 @@
 package com.mdud.spotifyfavorites.user;
 
-import com.mdud.spotifyfavorites.artist.Artist;
-import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -9,12 +7,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.swing.text.html.Option;
-import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static org.hamcrest.CoreMatchers.any;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -54,5 +49,24 @@ public class UserServiceImplTest {
         when(userRepository.findBySpotifyUserId(anyString())).thenReturn(Optional.empty());
 
         userService.findUser("test");
+    }
+
+    @Test
+    public void checkIfUserExists_CheckExistentUser_ShouldReturnTrue() {
+        when(userRepository.findBySpotifyUserId("test")).thenReturn(Optional.of(new User("test", null, null)));
+
+        boolean exists = userService.checkIfUserExists("test");
+
+        assertTrue(exists);
+        verify(userRepository, times(1)).findBySpotifyUserId("test");
+    }
+
+    @Test
+    public void checkIfUserExists_CheckNonExistentUser_ShouldReturnFalse() {
+        when(userRepository.findBySpotifyUserId("test")).thenReturn(Optional.empty());
+
+        boolean exists = userService.checkIfUserExists("test");
+
+        assertFalse(exists);
     }
 }

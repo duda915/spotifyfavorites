@@ -17,6 +17,11 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    public boolean checkIfUserExists(String spotifyId) {
+        return userRepository.findBySpotifyUserId(spotifyId).isPresent();
+    }
+
+    @Override
     public User findUser(String spotifyId) {
         return userRepository.findBySpotifyUserId(spotifyId).orElseThrow(() -> new NoSuchElementException("user with this id don't exists"));
     }
