@@ -30,4 +30,11 @@ public class UserServiceImpl implements UserService {
     public User addUser(User user) {
         return userRepository.save(user);
     }
+
+    @Override
+    public User update(User user) {
+        findUser(user.getSpotifyUserId());
+
+        return userRepository.save(user);
+    }
 }

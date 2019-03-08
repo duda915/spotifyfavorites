@@ -14,3 +14,4 @@ public class Track {
     private List<Artist> artists;
     private Integer duration;
 }
+

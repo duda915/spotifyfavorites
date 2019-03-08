@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -68,5 +69,23 @@ public class UserServiceImplTest {
         boolean exists = userService.checkIfUserExists("test");
 
         assertFalse(exists);
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void update_UpdateNonExistentUser_ShouldThrowNoSuchElementException() {
+        when(userRepository.findBySpotifyUserId("test")).thenReturn(Optional.empty());
+
+        userService.update(new User("test", null, null));
+    }
+
+    @Test
+    public void update_UpdateExistentUser_ShouldUpdateUser() {
+        User user = new User("test", null, null);
+        when(userRepository.findBySpotifyUserId("test")).thenReturn(Optional.of(user));
+
+        user.setFavoriteSongs(new ArrayList<>());
+        userService.update(user);
+
+        verify(userRepository, times(1)).save(user);
     }
 }
