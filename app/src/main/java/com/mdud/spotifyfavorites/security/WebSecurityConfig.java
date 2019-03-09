@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceS
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,7 +15,6 @@ import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
-import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -26,11 +26,15 @@ import javax.servlet.Filter;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final OAuth2ClientContext oAuth2ClientContext;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
-    public WebSecurityConfig(@Qualifier("oauth2ClientContext") OAuth2ClientContext oAuth2ClientContext) {
+    public WebSecurityConfig(@Qualifier("oauth2ClientContext") OAuth2ClientContext oAuth2ClientContext, ApplicationEventPublisher applicationEventPublisher) {
         this.oAuth2ClientContext = oAuth2ClientContext;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -47,6 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         UserInfoTokenServices userInfoTokenServices = new UserInfoTokenServices(spotifyResource().getUserInfoUri(), spotify().getClientId());
         userInfoTokenServices.setRestTemplate(spotifyTemplate);
         filter.setTokenServices(userInfoTokenServices);
+        filter.setApplicationEventPublisher(applicationEventPublisher);
         return filter;
     }
 

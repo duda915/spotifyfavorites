@@ -3,6 +3,8 @@ package com.mdud.spotifyfavorites.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.NoSuchElementException;
 
 @Service
@@ -27,8 +29,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(User user) {
-        return userRepository.save(user);
+    public User addUser(String spotifyUserId) {
+        if(checkIfUserExists(spotifyUserId)) {
+            throw new UserAlreadyExistsException("user already exists");
+        }
+
+        User newUser = new User(spotifyUserId, new ArrayList<>(), new ArrayList<>());
+        return userRepository.save(newUser);
     }
 
     @Override

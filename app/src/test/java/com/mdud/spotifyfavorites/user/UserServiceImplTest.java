@@ -24,14 +24,23 @@ public class UserServiceImplTest {
     private UserRepository userRepository;
 
     @Test
-    public void addUser() {
-        User user = new User("userid", null, null);
-        when(userRepository.save(user)).then(it -> it.getArgument(0));
+    public void addUser_AddNonExistentUser_ShouldAddUser() {
+        String spotifyId = "user";
+        when(userRepository.findBySpotifyUserId(spotifyId)).thenReturn(Optional.empty());
+        when(userRepository.save(any())).then(it -> it.getArgument(0));
 
-        User newUser = userService.addUser(user);
+        User newUser = userService.addUser(spotifyId);
 
-        assertEquals(user, newUser);
-        verify(userRepository, Mockito.times(1)).save(user);
+        User expectedUser = new User("user", new ArrayList<>(), new ArrayList<>());
+        assertEquals(expectedUser, newUser);
+        verify(userRepository, Mockito.times(1)).save(expectedUser);
+    }
+
+    @Test(expected = UserAlreadyExistsException.class)
+    public void addUser_AddExistentUser_ShouldThrowUserAlreadyExistsExcetpion() {
+        String spotifyId = "user";
+        when(userRepository.findBySpotifyUserId(spotifyId)).thenReturn(Optional.of(new User("user", null, null)));
+        userService.addUser(spotifyId);
     }
 
     @Test
