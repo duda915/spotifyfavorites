@@ -1,5 +1,6 @@
 package com.mdud.spotifyfavorites.security;
 
+import com.mdud.spotifyfavorites.spotify.user.SpotifyUserService;
 import com.mdud.spotifyfavorites.user.UserService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +13,17 @@ import org.springframework.stereotype.Component;
 public class AuthenticationSuccessListener  implements ApplicationListener<InteractiveAuthenticationSuccessEvent> {
 
     private final UserService userService;
+    private final SpotifyUserService spotifyUserService;
 
     @Autowired
-    public AuthenticationSuccessListener(UserService userService) {
+    public AuthenticationSuccessListener(UserService userService, SpotifyUserService spotifyUserService) {
         this.userService = userService;
+        this.spotifyUserService = spotifyUserService;
     }
 
     @Override
     public void onApplicationEvent(InteractiveAuthenticationSuccessEvent interactiveAuthenticationSuccessEvent) {
-        String spotifyUserId = OAuthUser.getSpotifyUserId();
+        String spotifyUserId = spotifyUserService.getSpotifyUserId();
 
         if(userService.checkIfUserExists(spotifyUserId)) {
             log.info("user logged, already exists");
