@@ -1,0 +1,14 @@
+spring:
+  thymeleaf:
+    cache: false
+
+spotify:
+  client:
+    clientId: 30d994eb50f14c57aed203f243680114
+    clientSecret: 583588fcd73140afa9962b5fae405a84
+    userAuthorizationUri: https://accounts.spotify.com/authorize
+    accessTokenUri: https://accounts.spotify.com/api/token
+    grantType: authorization_code
+    tokenName: access_token
+  resource:
+    userInfoUri: https://api.spotify.com/v1/me
