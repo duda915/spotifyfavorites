@@ -1,6 +1,5 @@
 package com.mdud.spotifyfavorites.spotify.user;
 
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
@@ -14,7 +13,6 @@ public class SpotifyUserServiceImpl implements SpotifyUserService {
     public String getSpotifyUserId() {
         return getAuthentication().getName();
     }
-
 
     @Override
     public String getAccessToken() {
