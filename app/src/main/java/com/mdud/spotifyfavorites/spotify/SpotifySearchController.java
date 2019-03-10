@@ -1,10 +1,15 @@
 package com.mdud.spotifyfavorites.spotify;
 
+import com.mdud.spotifyfavorites.artist.Artist;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class SpotifySearchController {
@@ -20,17 +25,18 @@ public class SpotifySearchController {
     }
 
     @GetMapping({"/", "/search"})
-    public ModelAndView searchView() {
-        ModelAndView modelAndView = new ModelAndView("index");
-
-        return modelAndView;
+    public String searchView() {
+        return "search";
     }
 
     @PostMapping("/search")
-    public ModelAndView getResults(@ModelAttribute SpotifySearchQuery spotifySearchQuery) {
-        ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("results", "results");
-        System.out.println(spotifyService.searchForArtists(spotifySearchQuery.getQuery()));
-        return modelAndView;
+    public String getResults(@ModelAttribute @Valid SpotifySearchQuery spotifySearchQuery, BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()) {
+            return "search";
+        }
+
+        List<Artist> artistList = spotifyService.searchForArtists(spotifySearchQuery.getQuery());
+        model.addAttribute("artists", artistList);
+        return "search";
     }
 }
