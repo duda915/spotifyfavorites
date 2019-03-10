@@ -15,13 +15,8 @@
     <script th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
   </head>
   <body>
-    <form
-      action="#"
-      th:action="@{/search}"
-      th:object="${searchQuery}"
-      method="POST"
-    >
-      <input type="text" th:field="*{query}" autocomplete="off" />
+    <form action="#" th:action="@{/search}" method="GET">
+      <input type="text" th:name="query" autocomplete="off" />
       <input type="submit" value="Submit" />
     </form>
 
@@ -31,12 +26,25 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr th:each="artist : ${artists}">
-            <th scope="row">1</th>
-            <td><span th:text="${artist.artistName}"/></td>
+          <tr th:each="artist, iter : ${artists}">
+            <th scope="row"><span th:text="${iter.index + 1}"></span></th>
+            <td><span th:text="${artist.artistName}"></span></td>
+            <td>
+              <form
+                action="#"
+                th:action="@{/artist}"
+                th:object="${newArtist}"
+                method="POST"
+              >
+                <input type="hidden" th:value="${artist.spotifyId}" name="spotifyId" />
+                <input type="hidden" th:value="${artist.artistName}" name="artistName"/>
+                <input type="submit" value="Add" />
+              </form>
+            </td>
           </tr>
         </tbody>
       </table>

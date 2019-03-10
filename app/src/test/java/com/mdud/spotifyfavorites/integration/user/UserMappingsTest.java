@@ -7,6 +7,7 @@ import com.mdud.spotifyfavorites.user.User;
 import com.mdud.spotifyfavorites.user.UserRepository;
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.test.annotation.IfProfileValue;
 import org.springframework.test.annotation.ProfileValueSourceConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.NoSuchElementException;
 
@@ -27,21 +29,51 @@ public class UserMappingsTest {
     @Autowired
     private UserRepository userRepository;
 
+    private User user;
+
+    @Before
+    public void setup() {
+        Artist favoriteArtist = new Artist("spotifyid", "name");
+        Track favoriteTrack = new Track("spotifyId", "name", Collections.singletonList(favoriteArtist), 300);
+        user = new User("spotifyUserId", Collections.singletonList(favoriteArtist), Collections.singletonList(favoriteTrack));
+    }
+
     @After
     public void cleanUp() {
         userRepository.deleteAll();
     }
 
     @Test
-    public void saveUser() {
-        Artist favoriteArtist = new Artist("spotifyid", "name");
-        Track favoriteTrack = new Track("spotifyId", "name", Collections.singletonList(favoriteArtist), 300);
-        User user = new User("spotifyUserId", Collections.singletonList(favoriteArtist), Collections.singletonList(favoriteTrack));
-
+    public void saveUser_ValidSave_ShouldSaveUser() {
         userRepository.save(user);
 
         User persistedUser = userRepository.findBySpotifyUserId("spotifyUserId").orElseThrow(NoSuchElementException::new);
         Assert.assertEquals(user, persistedUser);
     }
 
+    @Test
+    public void saveUser_AddNewArtist_ShouldUpdateUser() {
+        userRepository.save(user);
+
+        User persisted = userRepository.findBySpotifyUserId(user.getSpotifyUserId()).get();
+
+        Artist newArtist = new Artist("spotifyid2", "name");
+        ArrayList<Artist> mutableList = new ArrayList<>(persisted.getFavoriteArtists());
+        mutableList.add(newArtist);
+        persisted.setFavoriteArtists(mutableList);
+        userRepository.save(persisted);
+
+        Assert.assertEquals(1, userRepository.count());
+    }
+
+    @Test
+    public void saveUser_RemoveArtist_ShouldUpdateUser() {
+        userRepository.save(user);
+        User persisted = userRepository.findBySpotifyUserId(user.getSpotifyUserId()).get();
+        persisted.setFavoriteArtists(new ArrayList<>());
+        userRepository.save(persisted);
+
+        User updated = userRepository.findBySpotifyUserId(persisted.getSpotifyUserId()).get();
+        Assert.assertEquals(0, updated.getFavoriteArtists().size());
+    }
 }
