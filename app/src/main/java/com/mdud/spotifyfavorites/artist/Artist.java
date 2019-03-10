@@ -13,12 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonRootName("artists.items")
 public class Artist {
     @JsonProperty("id")
     private String spotifyId;
     @JsonProperty("name")
     private String artistName;
-    @JsonProperty("genres")
-    private List<String> genres;
 }

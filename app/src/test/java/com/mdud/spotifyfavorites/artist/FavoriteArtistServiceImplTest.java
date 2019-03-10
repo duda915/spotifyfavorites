@@ -32,7 +32,7 @@ public class FavoriteArtistServiceImplTest {
 
     @Before
     public void setup() {
-        favoriteArtists = Collections.singletonList(new Artist("id", null, null));
+        favoriteArtists = Collections.singletonList(new Artist("id", null));
         user = new User("spotifyUserId", favoriteArtists, null);
         when(userService.findUser(user.getSpotifyUserId())).thenReturn(user);
     }
@@ -60,7 +60,7 @@ public class FavoriteArtistServiceImplTest {
 
     @Test
     public void addFavoriteArtist() {
-        Artist newFavoriteArtist = new Artist("newid", null, null);
+        Artist newFavoriteArtist = new Artist("newid", null);
         when(userService.update(any())).then(it -> it.getArgument(0));
 
         User userWithNewFavoriteArtist = favouriteArtistService.addFavoriteArtist(user.getSpotifyUserId(), newFavoriteArtist);

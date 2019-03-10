@@ -36,7 +36,7 @@ public class FavoriteTrackServiceImplTest {
     @Before
     public void setup() {
         artists =
-                Collections.singletonList(new Artist("id", "artist", Collections.singletonList("test")));
+                Collections.singletonList(new Artist("id", "artist"));
         favoriteTracks =
                 Collections.singletonList(new Track("id", "name", artists, 300));
         testUser = new User("userId", artists, favoriteTracks);

@@ -34,7 +34,7 @@ public class UserMappingsTest {
 
     @Test
     public void saveUser() {
-        Artist favoriteArtist = new Artist("spotifyid", "name", Collections.singletonList("test"));
+        Artist favoriteArtist = new Artist("spotifyid", "name");
         Track favoriteTrack = new Track("spotifyId", "name", Collections.singletonList(favoriteArtist), 300);
         User user = new User("spotifyUserId", Collections.singletonList(favoriteArtist), Collections.singletonList(favoriteTrack));
 
