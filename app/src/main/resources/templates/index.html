@@ -15,6 +15,13 @@
     <script th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
   </head>
   <body>
-    <h1>Thymeleaf</h1>
+    <form action="#" th:action="@{/search}" th:object="${searchQuery}" method="POST">
+      <input type="text" th:field="*{query}" autocomplete="off"/>
+      <input type="submit" value="Submit"/>
+    </form>
+
+    <div th:if="${results != null}">
+      results
+    </div>
   </body>
 </html>
