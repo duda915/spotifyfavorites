@@ -1,13 +1,11 @@
 package com.mdud.spotifyfavorites.spotify;
 
 import com.mdud.spotifyfavorites.artist.Artist;
-import com.mdud.spotifyfavorites.spotify.user.SpotifyUserService;
 import com.mdud.spotifyfavorites.track.Track;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestOperations;
 
-import java.net.URI;
 import java.util.List;
 
 @Service
@@ -24,12 +22,12 @@ public class SpotifyServiceImpl implements SpotifyService {
     @Override
     public List<Artist> searchForArtists(String query) {
         String response = restOperations.getForObject(spotifySearchEndPointTemplate, String.class, query, "artist");
-        System.out.println(response);
-        return null;
+        return SpotifyResponseMapper.toArtistsList(response);
     }
 
     @Override
     public List<Track> searchForSongs(String query) {
-        return null;
+        String response = restOperations.getForObject(spotifySearchEndPointTemplate, String.class, query, "track");
+        return SpotifyResponseMapper.toSongsList(response);
     }
 }
