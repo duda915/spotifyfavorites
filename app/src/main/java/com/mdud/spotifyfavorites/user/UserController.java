@@ -1,25 +1,23 @@
 package com.mdud.spotifyfavorites.user;
 
-import com.mdud.spotifyfavorites.spotify.user.SpotifyUserService;
+import com.mdud.spotifyfavorites.spotify.SpotifyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestOperations;
 
 @RestController
 public class UserController {
 
-    private final SpotifyUserService spotifyUserService;
-    private final RestOperations restOperations;
+    private final SpotifyService spotifyService;
 
     @Autowired
-    public UserController(SpotifyUserService spotifyUserService, RestOperations restOperations) {
-        this.spotifyUserService = spotifyUserService;
-        this.restOperations = restOperations;
+    public UserController(SpotifyService spotifyService) {
+        this.spotifyService = spotifyService;
     }
 
     @GetMapping("/me")
     public String me() {
-        return spotifyUserService.getAccessToken();
+        spotifyService.searchForArtists("tania");
+        return "xxx";
     }
 }
