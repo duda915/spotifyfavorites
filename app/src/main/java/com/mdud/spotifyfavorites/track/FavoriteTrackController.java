@@ -1,6 +1,6 @@
-package com.mdud.spotifyfavorites.artist;
+package com.mdud.spotifyfavorites.track;
 
-import com.mdud.spotifyfavorites.track.FavoriteTrackService;
+import com.mdud.spotifyfavorites.artist.Artist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,30 +13,31 @@ import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 @Controller
-public class FavoriteArtistController {
+public class FavoriteTrackController {
 
-    private final FavoriteArtistService favoriteArtistService;
+    private final FavoriteTrackService favoriteTrackService;
 
     @Autowired
-    public FavoriteArtistController(FavoriteArtistService favoriteArtistService) {
-        this.favoriteArtistService = favoriteArtistService;
+    public FavoriteTrackController(FavoriteTrackService favoriteTrackService) {
+        this.favoriteTrackService = favoriteTrackService;
     }
 
-    @GetMapping("/artist")
-    public String getFavoriteArtists(Principal principal, Model model) {
-        model.addAttribute("artists", favoriteArtistService.findUserFavoriteArtists(principal.getName()));
+    @GetMapping("/track")
+    public String getFavoriteTracks(Principal principal, Model model) {
+        model.addAttribute("tracks", favoriteTrackService.findUserFavoriteTracks(principal.getName()));
         return "favorites";
     }
 
-    @DeleteMapping("/artist")
-    public String removeFavoriteArtist(HttpServletRequest request, Principal principal,
-                                       @ModelAttribute("removeArtist") Artist artist,
+    @DeleteMapping("/track")
+    public String removeFavoriteTracks(HttpServletRequest request, Principal principal,
+                                       @ModelAttribute("removeTrack") Track track,
                                        BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             bindingResult.getFieldErrors().forEach(System.out::println);
             return redirectToReferer(request);
         }
-        favoriteArtistService.removeFavoriteArtist(principal.getName(), artist.getId());
+
+        favoriteTrackService.removeFavoriteTrack(principal.getName(), track.getId());
         return redirectToReferer(request);
     }
 
