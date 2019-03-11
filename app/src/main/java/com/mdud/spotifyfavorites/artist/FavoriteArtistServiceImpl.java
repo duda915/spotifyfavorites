@@ -26,7 +26,7 @@ public class FavoriteArtistServiceImpl implements FavoriteArtistService {
 
     @Override
     public Artist findUserFavoriteArtist(String spotifyUserId, String spotifyArtistId) {
-        return userService.findUser(spotifyUserId).getFavoriteArtists().stream().filter(artist -> artist.getSpotifyId().equals(spotifyArtistId))
+        return userService.findUser(spotifyUserId).getFavoriteArtists().stream().filter(artist -> artist.getId().equals(spotifyArtistId))
                 .collect(CustomCollectors.singleElementCollector());
     }
 
@@ -45,7 +45,7 @@ public class FavoriteArtistServiceImpl implements FavoriteArtistService {
         User user = userService.findUser(spotifyUserId);
         Artist artist = findUserFavoriteArtist(user.getSpotifyUserId(), spotifyArtistId);
         List<Artist> mutableList = new ArrayList<>(user.getFavoriteArtists());
-        mutableList.removeIf(it -> it.getSpotifyId().equals(artist.getSpotifyId()));
+        mutableList.removeIf(it -> it.getId().equals(artist.getId()));
         user.setFavoriteArtists(mutableList);
 
         return userService.update(user);

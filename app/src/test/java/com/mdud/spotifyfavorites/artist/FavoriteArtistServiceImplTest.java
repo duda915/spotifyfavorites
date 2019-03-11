@@ -2,7 +2,6 @@ package com.mdud.spotifyfavorites.artist;
 
 import com.mdud.spotifyfavorites.user.User;
 import com.mdud.spotifyfavorites.user.UserService;
-import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -75,10 +74,10 @@ public class FavoriteArtistServiceImplTest {
     public void removeFavoriteArtist() {
         Artist artistToRemove = favoriteArtists.get(0);
         when(userService.update(any())).then(it -> it.getArgument(0));
-        User userWithArtistRemoved = favouriteArtistService.removeFavoriteArtist(user.getSpotifyUserId(), artistToRemove.getSpotifyId());
+        User userWithArtistRemoved = favouriteArtistService.removeFavoriteArtist(user.getSpotifyUserId(), artistToRemove.getId());
 
         List<Artist> expectedArtists = new ArrayList<>(favoriteArtists);
-        expectedArtists.removeIf(artist -> artist.getSpotifyId().equals(artistToRemove.getSpotifyId()));
+        expectedArtists.removeIf(artist -> artist.getId().equals(artistToRemove.getId()));
         Assert.assertEquals(userWithArtistRemoved.getFavoriteArtists(), expectedArtists);
 
         verify(userService, times(1)).update(userWithArtistRemoved);

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class FavoriteTrackServiceImpl implements FavoriteTrackService {
@@ -27,7 +26,7 @@ public class FavoriteTrackServiceImpl implements FavoriteTrackService {
 
     @Override
     public Track findUserFavoriteTrack(String spotifyUserId, String spotifyTrackId) {
-        return userService.findUser(spotifyUserId).getFavoriteSongs().stream().filter(track -> track.getSpotifyId().equals(spotifyTrackId))
+        return userService.findUser(spotifyUserId).getFavoriteSongs().stream().filter(track -> track.getId().equals(spotifyTrackId))
                 .collect(CustomCollectors.singleElementCollector());
     }
 

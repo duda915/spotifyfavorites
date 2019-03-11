@@ -17,7 +17,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Artist {
     @JsonProperty("id")
-    private String spotifyId;
+    private String id;
     @JsonProperty("name")
-    private String artistName;
+    private String name;
 }

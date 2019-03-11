@@ -330,7 +330,7 @@ public class SpotifyResponseMapperTest {
         List<Track> songs = spotifyResponseMapper.toSongsList(spotifyTrackListJson);
 
         Artist expectedArtist = new Artist("3fMbdgg4jU18AjLCKBhRSm", "Michael Jackson");
-        Track expectedTrack = new Track("5ChkMS8OtdzJeqyybCc9R5", "Billie Jean", Collections.singletonList(expectedArtist), 293826);
+        Track expectedTrack = new Track("5ChkMS8OtdzJeqyybCc9R5", "Billie Jean", Collections.singletonList(expectedArtist));
 
         assertEquals(Collections.singletonList(expectedTrack), songs);
     }

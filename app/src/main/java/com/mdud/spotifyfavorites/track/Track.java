@@ -15,12 +15,10 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Track {
     @JsonProperty("id")
-    private String spotifyId;
+    private String id;
     @JsonProperty("name")
     private String name;
     @JsonProperty("artists")
     private List<Artist> artists;
-    @JsonProperty("duration_ms")
-    private Integer duration;
 }
 

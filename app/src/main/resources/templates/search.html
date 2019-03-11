@@ -17,6 +17,10 @@
   <body>
     <form action="#" th:action="@{/search}" method="GET">
       <input type="text" th:name="query" autocomplete="off" />
+      <select th:name="type">
+        <option value="artist">Artist</option>
+        <option value="track">Track</option>
+      </select>
       <input type="submit" value="Submit" />
     </form>
 
@@ -32,16 +36,56 @@
         <tbody>
           <tr th:each="artist, iter : ${artists}">
             <th scope="row"><span th:text="${iter.index + 1}"></span></th>
-            <td><span th:text="${artist.artistName}"></span></td>
+            <td><span th:text="${artist.name}"></span></td>
             <td>
               <form
                 action="#"
                 th:action="@{/artist}"
-                th:object="${newArtist}"
+                th:object="${artist}"
                 method="POST"
               >
-                <input type="hidden" th:value="${artist.spotifyId}" name="spotifyId" />
-                <input type="hidden" th:value="${artist.artistName}" name="artistName"/>
+                <input type="hidden" th:value="${artist.id}" name="id" />
+                <input type="hidden" th:value="${artist.name}" name="name" />
+                <input type="submit" value="Add" />
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div th:if="${tracks != null}">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Artists</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="track, iter : ${tracks}">
+            <th scope="row"><span th:text="${iter.index + 1}"></span></th>
+            <td><span th:text="${track.name}"></span></td>
+            <td>
+              <ul th:each="artist : ${track.artists}">
+                <li><span th:text="${artist.name}"></span></li>
+              </ul>
+            </td>
+            <td>
+              <form
+                action="#"
+                th:action="@{/track}"
+                th:object="${newTrack}"
+                method="POST"
+              >
+                <input type="hidden" th:value="${track.id}" name="id" />
+                <input type="hidden" th:value="${track.name}" name="name" />
+                <th:block th:each="artist, artistIter : ${track.artists}">
+                  <input type="hidden" th:value="${artist.id}" th:name="'artists[' + ${artistIter.index} + '].id'"/>
+                  <input type="hidden" th:value="${artist.name}" th:name="'artists[' + ${artistIter.index} + '].name'"/>
+              </th:block>
                 <input type="submit" value="Add" />
               </form>
             </td>

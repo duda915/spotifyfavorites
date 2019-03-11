@@ -38,7 +38,7 @@ public class FavoriteTrackServiceImplTest {
         artists =
                 Collections.singletonList(new Artist("id", "artist"));
         favoriteTracks =
-                Collections.singletonList(new Track("id", "name", artists, 300));
+                Collections.singletonList(new Track("id", "name", artists));
         testUser = new User("userId", artists, favoriteTracks);
 
         when(userService.findUser(testUser.getSpotifyUserId())).thenReturn(testUser);
@@ -68,7 +68,7 @@ public class FavoriteTrackServiceImplTest {
 
     @Test
     public void addFavoriteTrack() {
-        Track newFavoriteTrack = new Track("newid", "name", null, 300);
+        Track newFavoriteTrack = new Track("newid", "name", null);
         when(userService.update(testUser)).then(it -> it.getArgument(0));
 
         User userWithNewTrack = favoriteTrackService.addFavoriteTrack(testUser.getSpotifyUserId(), newFavoriteTrack);
@@ -84,7 +84,7 @@ public class FavoriteTrackServiceImplTest {
         when(userService.update(testUser)).then(it -> it.getArgument(0));
 
         Track toRemove = favoriteTracks.get(0);
-        User removedTrackUser = favoriteTrackService.removeFavoriteTrack(testUser.getSpotifyUserId(), toRemove.getSpotifyId());
+        User removedTrackUser = favoriteTrackService.removeFavoriteTrack(testUser.getSpotifyUserId(), toRemove.getId());
 
         Assert.assertThat(removedTrackUser.getFavoriteSongs(), CoreMatchers.everyItem(CoreMatchers.not(toRemove)));
         verify(userService, times(1)).update(testUser);
