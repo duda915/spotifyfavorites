@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>SpotifyFavorites</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    <base href="/" />
+    <link
+      rel="stylesheet"
+      th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"
+    />
+    <script th:src="@{webjars/jquery/3.3.1/jquery.min.js}"></script>
+    <script th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+  </head>
+  <body>
+      <div th:if="${artists != null}">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="artist, iter : ${artists}">
+                <th scope="row"><span th:text="${iter.index + 1}"></span></th>
+                <td><span th:text="${artist.name}"></span></td>
+                <td>
+                  <form
+                    action="#"
+                    th:action="@{/artist}"
+                    th:object="${removeArtist}"
+                    th:method="delete"
+                  >
+                    <input type="hidden" th:value="${artist.id}" name="id" />
+                    <input type="hidden" th:value="${artist.name}" name="name" />
+                    <input type="submit" value="Remove" />
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  </body>
+</html>

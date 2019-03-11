@@ -35,7 +35,7 @@ public class SpotifySearchController {
 
     @GetMapping({"/", "search"})
     public String searchView(Principal principal, @RequestParam(required = false) String query, @RequestParam(required = false) String type, Model model) {
-        if(StringUtils.isBlank(query) || StringUtils.isBlank(type)) {
+        if (StringUtils.isBlank(query) || StringUtils.isBlank(type)) {
             return "search";
         }
 
@@ -59,7 +59,7 @@ public class SpotifySearchController {
     public String addFavoriteTrack(HttpServletRequest request, Principal principal,
                                    @ModelAttribute("newTrack") @Valid Track newTrack,
                                    BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             bindingResult.getFieldErrors().forEach(System.out::println);
             return redirectToReferer(request);
         }
@@ -73,7 +73,7 @@ public class SpotifySearchController {
                                     Principal principal,
                                     @ModelAttribute("artist") @Valid Artist newArtist,
                                     BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             bindingResult.getFieldErrors().forEach(System.out::println);
             return redirectToReferer(request);
         }
