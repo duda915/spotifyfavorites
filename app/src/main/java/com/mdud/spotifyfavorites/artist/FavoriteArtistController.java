@@ -32,7 +32,7 @@ public class FavoriteArtistController {
     @DeleteMapping("/artist/{artistId}")
     public String removeFavoriteArtist(HttpServletRequest request, Principal principal,
                                        @PathVariable("artistId") String artistId) {
-        
+
         favoriteArtistService.removeFavoriteArtist(principal.getName(), artistId);
         return redirectToReferer(request);
     }
