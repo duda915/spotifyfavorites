@@ -9,7 +9,7 @@ public class LoggingFilter extends AbstractRequestLoggingFilter {
 
     private final LoggingService loggingService;
 
-    public LoggingFilter(LoggingService loggingService) {
+    LoggingFilter(LoggingService loggingService) {
         this.loggingService = loggingService;
     }
 

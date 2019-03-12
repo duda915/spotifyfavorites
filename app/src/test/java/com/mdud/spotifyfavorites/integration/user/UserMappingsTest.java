@@ -33,6 +33,7 @@ public class UserMappingsTest {
 
     @Before
     public void setup() {
+        userRepository.deleteAll();
         Artist favoriteArtist = new Artist("spotifyid", "name");
         Track favoriteTrack = new Track("spotifyId", "name", Collections.singletonList(favoriteArtist));
         user = new User("spotifyUserId", Collections.singletonList(favoriteArtist), Collections.singletonList(favoriteTrack), null);
@@ -40,7 +41,7 @@ public class UserMappingsTest {
 
     @After
     public void cleanUp() {
-        userRepository.delete(user);
+        userRepository.deleteAll();
     }
 
     @Test

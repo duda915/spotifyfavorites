@@ -39,7 +39,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
-        findUser(user.getSpotifyUserId());
+        if(!checkIfUserExists(user.getSpotifyUserId())) {
+            throw new NoSuchElementException("user with this id don't exists");
+        }
 
         return userRepository.save(user);
     }
