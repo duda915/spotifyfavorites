@@ -57,30 +57,7 @@ public class SpotifySearchController extends RefererController {
         return "search";
     }
 
-    @PostMapping("/track")
-    public String addFavoriteTrack(HttpServletRequest request, Principal principal,
-                                   @ModelAttribute("newTrack") @Valid Track newTrack,
-                                   BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            bindingResult.getFieldErrors().forEach(System.out::println);
-            return redirectToReferer(request);
-        }
 
-        favoriteTrackService.addFavoriteTrack(principal.getName(), newTrack);
-        return redirectToReferer(request);
-    }
 
-    @PostMapping("/artist")
-    public String addFavoriteArtist(HttpServletRequest request,
-                                    Principal principal,
-                                    @ModelAttribute("artist") @Valid Artist newArtist,
-                                    BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            bindingResult.getFieldErrors().forEach(System.out::println);
-            return redirectToReferer(request);
-        }
 
-        favoriteArtistService.addFavoriteArtist(principal.getName(), newArtist);
-        return redirectToReferer(request);
-    }
 }

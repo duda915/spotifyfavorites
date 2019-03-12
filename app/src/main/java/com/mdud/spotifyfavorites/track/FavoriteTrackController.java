@@ -4,11 +4,11 @@ import com.mdud.spotifyfavorites.util.RefererController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
@@ -31,6 +31,19 @@ public class FavoriteTrackController extends RefererController {
     public String removeFavoriteTracks(HttpServletRequest request, Principal principal,
                                        @PathVariable("trackId") String trackId) {
         favoriteTrackService.removeFavoriteTrack(principal.getName(), trackId);
+        return redirectToReferer(request);
+    }
+
+    @PostMapping("/track")
+    public String addFavoriteTrack(HttpServletRequest request, Principal principal,
+                                   @ModelAttribute("newTrack") @Valid Track newTrack,
+                                   BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            bindingResult.getFieldErrors().forEach(System.out::println);
+            return redirectToReferer(request);
+        }
+
+        favoriteTrackService.addFavoriteTrack(principal.getName(), newTrack);
         return redirectToReferer(request);
     }
 

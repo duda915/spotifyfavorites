@@ -4,11 +4,11 @@ import com.mdud.spotifyfavorites.util.RefererController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
@@ -32,6 +32,20 @@ public class FavoriteArtistController extends RefererController {
                                        @PathVariable("artistId") String artistId) {
 
         favoriteArtistService.removeFavoriteArtist(principal.getName(), artistId);
+        return redirectToReferer(request);
+    }
+
+    @PostMapping("/artist")
+    public String addFavoriteArtist(HttpServletRequest request,
+                                    Principal principal,
+                                    @ModelAttribute("artist") @Valid Artist newArtist,
+                                    BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            bindingResult.getFieldErrors().forEach(System.out::println);
+            return redirectToReferer(request);
+        }
+
+        favoriteArtistService.addFavoriteArtist(principal.getName(), newArtist);
         return redirectToReferer(request);
     }
 }

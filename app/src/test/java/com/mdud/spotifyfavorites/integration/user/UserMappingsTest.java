@@ -40,7 +40,7 @@ public class UserMappingsTest {
 
     @After
     public void cleanUp() {
-        userRepository.deleteAll();
+        userRepository.delete(user);
     }
 
     @Test
