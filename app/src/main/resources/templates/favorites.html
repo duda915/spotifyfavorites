@@ -13,6 +13,12 @@
     />
     <script th:src="@{webjars/jquery/3.3.1/jquery.min.js}"></script>
     <script th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+    <script>
+    $(document).ready(() => {
+        $("#artist-table").DataTable();
+        $("#tracks-table").DataTable();
+      });
+    </script>
   </head>
   <body>
     <div th:insert="fragments/header"></div>
@@ -22,7 +28,7 @@
         <div class="col-12">
           <h2 class="text-center">Favorite Artists</h2>
 
-          <table class="table">
+          <table id="artist-table" class="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -54,7 +60,7 @@
         <div class="col-12">
           <h2 class="text-center">Favorite Tracks</h2>
 
-          <table class="table">
+          <table id="tracks-table" class="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
