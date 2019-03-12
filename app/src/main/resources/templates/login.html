@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>SpotifyFavorites</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    <base href="/" />
+    <link
+      rel="stylesheet"
+      th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"
+    />
+    <script th:src="@{webjars/jquery/3.3.1/jquery.min.js}"></script>
+    <script th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+  </head>
+  <body>
+    <a th:href="@{/login/spotify}">Spotify</a>
+  </body>
+</html>

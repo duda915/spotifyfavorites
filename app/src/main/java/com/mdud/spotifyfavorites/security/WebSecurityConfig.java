@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilt
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.client.RestOperations;
 
@@ -41,9 +42,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().anyRequest().authenticated()
+                .and().authorizeRequests().antMatchers("/login/spotify").permitAll()
                 .and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
-                .formLogin().loginPage("/login/spotify").permitAll()
-                .and().logout().logoutSuccessUrl("/login/spotify").permitAll();
+                .formLogin().loginPage("/login").permitAll()
+                .and().logout().logoutSuccessUrl("/login").permitAll();
     }
 
     private Filter ssoFilter() {
@@ -54,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         userInfoTokenServices.setRestTemplate(spotifyTemplate);
         filter.setTokenServices(userInfoTokenServices);
         filter.setApplicationEventPublisher(applicationEventPublisher);
+        filter.setAuthenticationSuccessHandler(new SimpleUrlAuthenticationSuccessHandler("/"));
         return filter;
     }
 
