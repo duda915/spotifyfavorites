@@ -52,6 +52,8 @@ public class SpotifySearchController {
                 break;
         }
 
+        model.addAttribute("queryInput", query);
+        model.addAttribute("typeInput", type);
         return "search";
     }
 
