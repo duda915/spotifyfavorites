@@ -4,6 +4,7 @@ import com.mdud.spotifyfavorites.artist.Artist;
 import com.mdud.spotifyfavorites.artist.FavoriteArtistService;
 import com.mdud.spotifyfavorites.track.FavoriteTrackService;
 import com.mdud.spotifyfavorites.track.Track;
+import com.mdud.spotifyfavorites.util.RefererController;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 @Controller
-public class SpotifySearchController {
+public class SpotifySearchController extends RefererController {
     private final SpotifyService spotifyService;
     private final FavoriteArtistService favoriteArtistService;
     private final FavoriteTrackService favoriteTrackService;
@@ -82,10 +82,5 @@ public class SpotifySearchController {
 
         favoriteArtistService.addFavoriteArtist(principal.getName(), newArtist);
         return redirectToReferer(request);
-    }
-
-    private String redirectToReferer(HttpServletRequest request) {
-        String referer = request.getHeader("referer");
-        return "redirect:" + referer;
     }
 }

@@ -1,20 +1,18 @@
 package com.mdud.spotifyfavorites.artist;
 
-import com.mdud.spotifyfavorites.track.FavoriteTrackService;
+import com.mdud.spotifyfavorites.util.RefererController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 @Controller
-public class FavoriteArtistController {
+public class FavoriteArtistController extends RefererController {
 
     private final FavoriteArtistService favoriteArtistService;
 
@@ -35,10 +33,5 @@ public class FavoriteArtistController {
 
         favoriteArtistService.removeFavoriteArtist(principal.getName(), artistId);
         return redirectToReferer(request);
-    }
-
-    private String redirectToReferer(HttpServletRequest request) {
-        String referer = request.getHeader("referer");
-        return "redirect:" + referer;
     }
 }
