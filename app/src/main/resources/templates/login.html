@@ -9,12 +9,31 @@
     <base href="/" />
     <link
       rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
       th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"
     />
     <script th:src="@{webjars/jquery/3.3.1/jquery.min.js}"></script>
     <script th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
   </head>
   <body>
-    <a th:href="@{/login/spotify}">Spotify</a>
+    <div class="container h-100">
+      <div class="row h-100 justify-content-center align-items-center">
+        <div
+          class="col-lg-6 border rounded text-center p-5 bg-primary text-white"
+        >
+          <h4>Login</h4>
+
+          <a th:href="@{/login/spotify}" class="btn btn-success">
+            <i class="fab fa-spotify"></i>
+            <span class="ml-3">Login with Spotify</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
