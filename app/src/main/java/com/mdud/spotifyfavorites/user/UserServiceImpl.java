@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistsException("user already exists");
         }
 
-        User newUser = new User(spotifyUserId, new ArrayList<>(), new ArrayList<>());
+        User newUser = new User(spotifyUserId, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         return userRepository.save(newUser);
     }
 

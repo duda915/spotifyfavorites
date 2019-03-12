@@ -1,6 +1,7 @@
 package com.mdud.spotifyfavorites.user;
 
 import com.mdud.spotifyfavorites.artist.Artist;
+import com.mdud.spotifyfavorites.logging.Log;
 import com.mdud.spotifyfavorites.track.Track;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,5 +18,6 @@ public class User {
     private String spotifyUserId;
     private List<Artist> favoriteArtists;
     private List<Track> favoriteSongs;
+    private List<Log> userLogs;
 }
 

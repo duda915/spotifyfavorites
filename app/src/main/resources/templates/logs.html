@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>SpotifyFavorites</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+    <base href="/" />
+    <link
+      rel="stylesheet"
+      th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"
+    />
+    <link rel="stylesheet" th:href="@{/css/Log.css}" />
+    <script th:src="@{webjars/jquery/3.3.1/jquery.min.js}"></script>
+    <script th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Method</th>
+                <th scope="col">Message</th>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="log : ${logs}">
+                <td><span th:text="${log.method}"></span></td>
+                <td><span th:text="${log.message}"></span></td>
+                <td><span th:text="${log.date}"></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

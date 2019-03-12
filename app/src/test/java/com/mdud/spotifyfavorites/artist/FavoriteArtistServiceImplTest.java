@@ -32,7 +32,7 @@ public class FavoriteArtistServiceImplTest {
     @Before
     public void setup() {
         favoriteArtists = Collections.singletonList(new Artist("id", null));
-        user = new User("spotifyUserId", favoriteArtists, null);
+        user = new User("spotifyUserId", favoriteArtists, null, null);
         when(userService.findUser(user.getSpotifyUserId())).thenReturn(user);
     }
 

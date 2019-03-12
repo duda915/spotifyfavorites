@@ -31,7 +31,7 @@ public class UserServiceImplTest {
 
         User newUser = userService.addUser(spotifyId);
 
-        User expectedUser = new User("user", new ArrayList<>(), new ArrayList<>());
+        User expectedUser = new User("user", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         assertEquals(expectedUser, newUser);
         verify(userRepository, Mockito.times(1)).save(expectedUser);
     }
@@ -39,13 +39,13 @@ public class UserServiceImplTest {
     @Test(expected = UserAlreadyExistsException.class)
     public void addUser_AddExistentUser_ShouldThrowUserAlreadyExistsExcetpion() {
         String spotifyId = "user";
-        when(userRepository.findBySpotifyUserId(spotifyId)).thenReturn(Optional.of(new User("user", null, null)));
+        when(userRepository.findBySpotifyUserId(spotifyId)).thenReturn(Optional.of(new User("user", null, null, null)));
         userService.addUser(spotifyId);
     }
 
     @Test
     public void findUser_FindExistentUser_ShouldReturnUser() {
-        User user = new User("test", null, null);
+        User user = new User("test", null, null, null);
         when(userRepository.findBySpotifyUserId("test")).thenReturn(Optional.of(user));
 
         User foundUser = userService.findUser("test");
@@ -63,7 +63,7 @@ public class UserServiceImplTest {
 
     @Test
     public void checkIfUserExists_CheckExistentUser_ShouldReturnTrue() {
-        when(userRepository.findBySpotifyUserId("test")).thenReturn(Optional.of(new User("test", null, null)));
+        when(userRepository.findBySpotifyUserId("test")).thenReturn(Optional.of(new User("test", null, null, null)));
 
         boolean exists = userService.checkIfUserExists("test");
 
@@ -84,12 +84,12 @@ public class UserServiceImplTest {
     public void update_UpdateNonExistentUser_ShouldThrowNoSuchElementException() {
         when(userRepository.findBySpotifyUserId("test")).thenReturn(Optional.empty());
 
-        userService.update(new User("test", null, null));
+        userService.update(new User("test", null, null, null));
     }
 
     @Test
     public void update_UpdateExistentUser_ShouldUpdateUser() {
-        User user = new User("test", null, null);
+        User user = new User("test", null, null, null);
         when(userRepository.findBySpotifyUserId("test")).thenReturn(Optional.of(user));
 
         user.setFavoriteSongs(new ArrayList<>());

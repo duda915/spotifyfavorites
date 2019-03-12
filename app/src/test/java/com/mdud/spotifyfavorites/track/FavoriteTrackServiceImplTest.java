@@ -39,7 +39,7 @@ public class FavoriteTrackServiceImplTest {
                 Collections.singletonList(new Artist("id", "artist"));
         favoriteTracks =
                 Collections.singletonList(new Track("id", "name", artists));
-        testUser = new User("userId", artists, favoriteTracks);
+        testUser = new User("userId", artists, favoriteTracks, null);
 
         when(userService.findUser(testUser.getSpotifyUserId())).thenReturn(testUser);
     }
