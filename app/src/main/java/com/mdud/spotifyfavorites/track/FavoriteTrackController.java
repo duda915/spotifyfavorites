@@ -1,6 +1,6 @@
 package com.mdud.spotifyfavorites.track;
 
-import com.mdud.spotifyfavorites.util.RefererController;
+import com.mdud.spotifyfavorites.util.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
-public class FavoriteTrackController extends RefererController {
+public class FavoriteTrackController extends BaseController {
 
     private final FavoriteTrackService favoriteTrackService;
 
@@ -38,12 +38,7 @@ public class FavoriteTrackController extends RefererController {
     public String addFavoriteTrack(HttpServletRequest request, Principal principal,
                                    @ModelAttribute("newTrack") @Valid Track newTrack,
                                    BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            bindingResult.getFieldErrors().forEach(System.out::println);
-            return redirectToReferer(request);
-        }
-
-        favoriteTrackService.addFavoriteTrack(principal.getName(), newTrack);
+        executeOnSuccessfulBinding(bindingResult, () -> favoriteTrackService.addFavoriteTrack(principal.getName(), newTrack));
         return redirectToReferer(request);
     }
 

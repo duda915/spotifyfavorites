@@ -4,24 +4,19 @@ import com.mdud.spotifyfavorites.artist.Artist;
 import com.mdud.spotifyfavorites.artist.FavoriteArtistService;
 import com.mdud.spotifyfavorites.track.FavoriteTrackService;
 import com.mdud.spotifyfavorites.track.Track;
-import com.mdud.spotifyfavorites.util.RefererController;
+import com.mdud.spotifyfavorites.util.BaseController;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
 
 @Controller
-public class SpotifySearchController extends RefererController {
+public class SpotifySearchController extends BaseController {
     private final SpotifyService spotifyService;
     private final FavoriteArtistService favoriteArtistService;
     private final FavoriteTrackService favoriteTrackService;
@@ -56,8 +51,6 @@ public class SpotifySearchController extends RefererController {
         model.addAttribute("typeInput", type);
         return "search";
     }
-
-
 
 
 }

@@ -1,6 +1,6 @@
 package com.mdud.spotifyfavorites.artist;
 
-import com.mdud.spotifyfavorites.util.RefererController;
+import com.mdud.spotifyfavorites.util.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
-public class FavoriteArtistController extends RefererController {
+public class FavoriteArtistController extends BaseController {
 
     private final FavoriteArtistService favoriteArtistService;
 
@@ -30,7 +30,6 @@ public class FavoriteArtistController extends RefererController {
     @DeleteMapping("/artist/{artistId}")
     public String removeFavoriteArtist(HttpServletRequest request, Principal principal,
                                        @PathVariable("artistId") String artistId) {
-
         favoriteArtistService.removeFavoriteArtist(principal.getName(), artistId);
         return redirectToReferer(request);
     }
@@ -40,12 +39,7 @@ public class FavoriteArtistController extends RefererController {
                                     Principal principal,
                                     @ModelAttribute("artist") @Valid Artist newArtist,
                                     BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            bindingResult.getFieldErrors().forEach(System.out::println);
-            return redirectToReferer(request);
-        }
-
-        favoriteArtistService.addFavoriteArtist(principal.getName(), newArtist);
+        executeOnSuccessfulBinding(bindingResult, () -> favoriteArtistService.addFavoriteArtist(principal.getName(), newArtist));
         return redirectToReferer(request);
     }
 }
