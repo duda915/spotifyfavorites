@@ -1,5 +1,6 @@
 package com.mdud.spotifyfavorites.logging;
 
+import org.apache.catalina.connector.Connector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +20,7 @@ public class LogConfiguration {
         AbstractRequestLoggingFilter loggingFilter = new LoggingFilter(loggingService);
         loggingFilter.setIncludeQueryString(true);
         loggingFilter.setIncludePayload(true);
-        loggingFilter.setMaxPayloadLength(100000);
+        loggingFilter.setMaxPayloadLength(1000000);
         loggingFilter.setAfterMessagePrefix("request: [");
         return loggingFilter;
     }

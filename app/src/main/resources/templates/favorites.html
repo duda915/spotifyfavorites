@@ -31,12 +31,9 @@
             <td>
               <form
                 action="#"
-                th:action="@{/artist}"
-                th:object="${removeArtist}"
+                th:action="@{'/artist/' + ${artist.id}}"
                 th:method="delete"
               >
-                <input type="hidden" th:value="${artist.id}" name="id" />
-                <input type="hidden" th:value="${artist.name}" name="name" />
                 <input type="submit" value="Remove" />
               </form>
             </td>
@@ -67,24 +64,9 @@
             <td>
               <form
                 action="#"
-                th:action="@{/track}"
-                th:object="${removeTrack}"
+                th:action="@{'/track/' + ${track.id}}"
                 th:method="delete"
               >
-                <input type="hidden" th:value="${track.id}" name="id" />
-                <input type="hidden" th:value="${track.name}" name="name" />
-                <th:block th:each="artist, artistIter : ${track.artists}">
-                  <input
-                    type="hidden"
-                    th:value="${artist.id}"
-                    th:name="'artists[' + ${artistIter.index} + '].id'"
-                  />
-                  <input
-                    type="hidden"
-                    th:value="${artist.name}"
-                    th:name="'artists[' + ${artistIter.index} + '].name'"
-                  />
-                </th:block>
                 <input type="submit" value="Remove" />
               </form>
             </td>

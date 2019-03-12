@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -28,15 +29,11 @@ public class FavoriteArtistController {
         return "favorites";
     }
 
-    @DeleteMapping("/artist")
+    @DeleteMapping("/artist/{artistId}")
     public String removeFavoriteArtist(HttpServletRequest request, Principal principal,
-                                       @ModelAttribute("removeArtist") Artist artist,
-                                       BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            bindingResult.getFieldErrors().forEach(System.out::println);
-            return redirectToReferer(request);
-        }
-        favoriteArtistService.removeFavoriteArtist(principal.getName(), artist.getId());
+                                       @PathVariable("artistId") String artistId) {
+        
+        favoriteArtistService.removeFavoriteArtist(principal.getName(), artistId);
         return redirectToReferer(request);
     }
 
