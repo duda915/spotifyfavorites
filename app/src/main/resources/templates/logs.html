@@ -15,9 +15,13 @@
     <script th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
   </head>
   <body>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm">
+    <div th:insert="fragments/header"></div>
+
+    <div class="container">
+      <div class="row mt-2">
+        <div class="col-12">
+        <h2 class="text-center">Logs</h2>
+
           <table class="table">
             <thead>
               <tr>
@@ -29,7 +33,9 @@
             <tbody>
               <tr th:each="log : ${logs}">
                 <td><span th:text="${log.method}"></span></td>
-                <td style ="word-break:break-all;"><span th:text="${log.message}"></span></td>
+                <td style="word-break:break-all;">
+                  <span th:text="${log.message}"></span>
+                </td>
                 <td><span th:text="${log.date}"></span></td>
               </tr>
             </tbody>
