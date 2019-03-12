@@ -13,12 +13,7 @@
     />
     <script th:src="@{webjars/jquery/3.3.1/jquery.min.js}"></script>
     <script th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
-      crossorigin="anonymous"
-    />
+
   </head>
   <body>
     <div th:insert="fragments/header"></div>
@@ -26,6 +21,8 @@
     <div class="container ">
       <div class="row mt-2">
         <div class="col-4 mx-auto">
+        <h1 class="text-center">Search Spotify</h1>
+
           <form action="#" th:action="@{/search}" method="GET">
             <div class="form-group">
               <label for="query">Search</label>

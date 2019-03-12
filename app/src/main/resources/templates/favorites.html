@@ -15,64 +15,81 @@
     <script th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
   </head>
   <body>
-    <div th:if="${artists != null}">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="artist, iter : ${artists}">
-            <th scope="row"><span th:text="${iter.index + 1}"></span></th>
-            <td><span th:text="${artist.name}"></span></td>
-            <td>
-              <form
-                action="#"
-                th:action="@{'/artist/' + ${artist.id}}"
-                th:method="delete"
-              >
-                <input type="submit" value="Remove" />
-              </form>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <div th:insert="fragments/header"></div>
 
-    <div th:if="${tracks != null}">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Artists</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="track, iter : ${tracks}">
-            <th scope="row"><span th:text="${iter.index + 1}"></span></th>
-            <td><span th:text="${track.name}"></span></td>
-            <td>
-              <ul th:each="artist : ${track.artists}">
-                <li><span th:text="${artist.name}"></span></li>
-              </ul>
-            </td>
-            <td>
-              <form
-                action="#"
-                th:action="@{'/track/' + ${track.id}}"
-                th:method="delete"
-              >
-                <input type="submit" value="Remove" />
-              </form>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="container ">
+      <div class="row mt-2" th:if="${artists != null}">
+        <div class="col-12">
+          <h1 class="text-center">Favorite Artists</h1>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="artist, iter : ${artists}">
+                <th scope="row"><span th:text="${iter.index + 1}"></span></th>
+                <td><span th:text="${artist.name}"></span></td>
+                <td>
+                  <form
+                    action="#"
+                    th:action="@{'/artist/' + ${artist.id}}"
+                    th:method="delete"
+                  >
+                    <button type="submit" class="btn btn-primary">
+                      Remove
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row mt-2" th:if="${tracks != null}">
+        <div class="col-12">
+          <h1 class="text-center">Favorite Tracks</h1>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Artists</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="track, iter : ${tracks}">
+                <th scope="row">
+                  <span th:text="${iter.index + 1}"></span>
+                </th>
+                <td><span th:text="${track.name}"></span></td>
+                <td>
+                  <ul th:each="artist : ${track.artists}">
+                    <li><span th:text="${artist.name}"></span></li>
+                  </ul>
+                </td>
+                <td>
+                  <form
+                    action="#"
+                    th:action="@{'/track/' + ${track.id}}"
+                    th:method="delete"
+                  >
+                    <button type="submit" class="btn btn-primary">
+                      Remove
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </body>
 </html>
