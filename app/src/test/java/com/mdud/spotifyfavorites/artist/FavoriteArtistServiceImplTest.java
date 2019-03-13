@@ -1,5 +1,6 @@
 package com.mdud.spotifyfavorites.artist;
 
+import com.mdud.spotifyfavorites.exception.ResourceAlreadyExistsException;
 import com.mdud.spotifyfavorites.user.User;
 import com.mdud.spotifyfavorites.user.UserService;
 import org.junit.Assert;
@@ -58,7 +59,7 @@ public class FavoriteArtistServiceImplTest {
     }
 
     @Test
-    public void addFavoriteArtist() {
+    public void addFavoriteArtist_AddNewArtist_ShouldAddArtist() {
         Artist newFavoriteArtist = new Artist("newid", null);
         when(userService.update(any())).then(it -> it.getArgument(0));
 
@@ -68,6 +69,13 @@ public class FavoriteArtistServiceImplTest {
         expectedArtists.add(newFavoriteArtist);
         Assert.assertEquals(expectedArtists, userWithNewFavoriteArtist.getFavoriteArtists());
         verify(userService, times(1)).update(userWithNewFavoriteArtist);
+    }
+
+    @Test(expected = ResourceAlreadyExistsException.class)
+    public void addFavoriteArtist_AddTwoSameArtists_ShouldThrowException() {
+        Artist duplicatedArtist = favoriteArtists.get(0);
+
+        favouriteArtistService.addFavoriteArtist(user.getSpotifyUserId(), duplicatedArtist);
     }
 
     @Test

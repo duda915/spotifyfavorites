@@ -1,6 +1,7 @@
 package com.mdud.spotifyfavorites.track;
 
 import com.mdud.spotifyfavorites.artist.Artist;
+import com.mdud.spotifyfavorites.exception.ResourceAlreadyExistsException;
 import com.mdud.spotifyfavorites.user.User;
 import com.mdud.spotifyfavorites.user.UserService;
 import org.hamcrest.CoreMatchers;
@@ -67,7 +68,7 @@ public class FavoriteTrackServiceImplTest {
     }
 
     @Test
-    public void addFavoriteTrack() {
+    public void addFavoriteTrack_AddNewFavoriteTrack_ShouldAddTrack() {
         Track newFavoriteTrack = new Track("newid", "name", null);
         when(userService.update(testUser)).then(it -> it.getArgument(0));
 
@@ -77,6 +78,13 @@ public class FavoriteTrackServiceImplTest {
         expectedTracks.add(newFavoriteTrack);
         Assert.assertThat(userWithNewTrack.getFavoriteSongs(), CoreMatchers.hasItems(expectedTracks.stream().toArray(Track[]::new)));
         verify(userService, times(1)).update(userWithNewTrack);
+    }
+
+    @Test(expected = ResourceAlreadyExistsException.class)
+    public void addFavoriteTrack_AddDuplicatedTrack_ShouldThrowException() {
+        Track duplicatedTrack = favoriteTracks.get(0);
+
+        favoriteTrackService.addFavoriteTrack(testUser.getSpotifyUserId(), duplicatedTrack);
     }
 
     @Test

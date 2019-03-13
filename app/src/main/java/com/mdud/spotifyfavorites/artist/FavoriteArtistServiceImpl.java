@@ -1,5 +1,6 @@
 package com.mdud.spotifyfavorites.artist;
 
+import com.mdud.spotifyfavorites.exception.ResourceAlreadyExistsException;
 import com.mdud.spotifyfavorites.user.User;
 import com.mdud.spotifyfavorites.user.UserService;
 import com.mdud.spotifyfavorites.util.CustomCollectors;
@@ -30,8 +31,16 @@ public class FavoriteArtistServiceImpl implements FavoriteArtistService {
                 .collect(CustomCollectors.singleElementCollector());
     }
 
+    private boolean checkIfArtistExists(String spotifyUserId, Artist favoriteArtist) {
+        return userService.findUser(spotifyUserId).getFavoriteArtists().contains(favoriteArtist);
+    }
+
     @Override
     public User addFavoriteArtist(String spotifyUserId, Artist favoriteArtist) {
+        if(checkIfArtistExists(spotifyUserId, favoriteArtist)) {
+            throw new ResourceAlreadyExistsException("artist already added");
+        }
+
         User user = userService.findUser(spotifyUserId);
         List<Artist> mutableList = new ArrayList<>(user.getFavoriteArtists());
         mutableList.add(favoriteArtist);

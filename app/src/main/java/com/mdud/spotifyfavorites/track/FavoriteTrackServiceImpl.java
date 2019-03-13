@@ -1,5 +1,6 @@
 package com.mdud.spotifyfavorites.track;
 
+import com.mdud.spotifyfavorites.exception.ResourceAlreadyExistsException;
 import com.mdud.spotifyfavorites.user.User;
 import com.mdud.spotifyfavorites.user.UserService;
 import com.mdud.spotifyfavorites.util.CustomCollectors;
@@ -30,8 +31,15 @@ public class FavoriteTrackServiceImpl implements FavoriteTrackService {
                 .collect(CustomCollectors.singleElementCollector());
     }
 
+    private boolean checkIfTrackExists(String spotifyUserId, Track track) {
+        return userService.findUser(spotifyUserId).getFavoriteSongs().contains(track);
+    }
+
     @Override
     public User addFavoriteTrack(String spotifyUserId, Track favoriteTrack) {
+        if(checkIfTrackExists(spotifyUserId, favoriteTrack)) {
+            throw new ResourceAlreadyExistsException("track already added");
+        }
         User user = userService.findUser(spotifyUserId);
         List<Track> mutableList = new ArrayList<>(user.getFavoriteSongs());
         mutableList.add(favoriteTrack);
