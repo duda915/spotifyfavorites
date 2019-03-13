@@ -63,19 +63,20 @@ public class FavoriteArtistControllerTest {
     }
 
     @Test
-    public void addFavoriteArtist_AddValidFavoriteArtist_ShouldReturnFound() throws Exception {
+    public void addFavoriteArtist_AddValidFavoriteArtist_ShouldAttributeHaveNoErrors() throws Exception {
         Principal principal = () -> "user";
         Artist artist = new Artist("id", "name");
         mockMvc.perform(post(endpoint)
                 .principal(principal)
                 .flashAttr("artist", artist))
-                .andExpect(status().isFound());
+                .andExpect(status().isFound())
+                .andExpect(model().attributeHasNoErrors("artist"));
 
         verify(favoriteArtistService, times(1)).addFavoriteArtist("user", artist);
     }
 
     @Test
-    public void addFavoriteArtist_AddInvalidFavoriteArtist_ShouldReturnBadRequest() throws Exception {
+    public void addFavoriteArtist_AddInvalidFavoriteArtist_ShouldAttributeHaveErrors() throws Exception {
         Principal principal = () -> "user";
         Artist artist = new Artist();
         mockMvc.perform(post(endpoint)

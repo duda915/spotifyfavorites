@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Data
@@ -15,10 +18,14 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Track {
     @JsonProperty("id")
+    @NotBlank
     private String id;
     @JsonProperty("name")
+    @NotBlank
     private String name;
     @JsonProperty("artists")
+    @NotEmpty
+    @Valid
     private List<Artist> artists;
 }
 
