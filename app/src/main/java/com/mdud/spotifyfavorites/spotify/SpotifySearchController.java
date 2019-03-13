@@ -28,10 +28,10 @@ public class SpotifySearchController extends BaseController {
         this.favoriteTrackService = favoriteTrackService;
     }
 
-    @GetMapping({"/", "search"})
+    @GetMapping({"/", "/search"})
     public String searchView(Principal principal, @RequestParam(required = false) String query, @RequestParam(required = false) String type, Model model) {
         if (StringUtils.isBlank(query) || StringUtils.isBlank(type)) {
-            return "search";
+            return "searchview";
         }
 
         switch (type) {
@@ -49,7 +49,7 @@ public class SpotifySearchController extends BaseController {
 
         model.addAttribute("queryInput", query);
         model.addAttribute("typeInput", type);
-        return "search";
+        return "searchview";
     }
 
 
