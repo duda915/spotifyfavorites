@@ -44,14 +44,15 @@ public class LoggingServiceImplTest {
     public void getUserLogs_LogsShouldBeReversed() {
         List<Log> logs = new ArrayList<>();
 
+        Log expectedFirstLog = new Log("get", "get", LocalDateTime.now().plusHours(1));
         Log expectedLastLog= new Log("post", "post", LocalDateTime.now());
 
         logs.add(expectedLastLog);
-        logs.add(new Log("get", "get", LocalDateTime.now()));
+        logs.add(expectedFirstLog);
         when(userService.findUser("test")).thenReturn(new User("test", null, null, logs));
 
         List<Log> userLogs = loggingService.getUserLogs("test");
 
-        assertEquals(expectedLastLog, userLogs.get(userLogs.size()-1));
+        assertEquals(expectedFirstLog, userLogs.get(0));
     }
 }
