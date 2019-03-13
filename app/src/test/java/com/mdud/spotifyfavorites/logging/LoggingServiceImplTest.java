@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -37,5 +38,20 @@ public class LoggingServiceImplTest {
 
         assertEquals(logged, expectedUser);
         verify(userService, times(1)).update(expectedUser);
+    }
+
+    @Test
+    public void getUserLogs_LogsShouldBeReversed() {
+        List<Log> logs = new ArrayList<>();
+
+        Log expectedLastLog= new Log("post", "post", LocalDateTime.now());
+
+        logs.add(expectedLastLog);
+        logs.add(new Log("get", "get", LocalDateTime.now()));
+        when(userService.findUser("test")).thenReturn(new User("test", null, null, logs));
+
+        List<Log> userLogs = loggingService.getUserLogs("test");
+
+        assertEquals(expectedLastLog, userLogs.get(userLogs.size()-1));
     }
 }
