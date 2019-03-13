@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -32,7 +31,7 @@ public class LoggingServiceImpl implements LoggingService {
     @Override
     public List<Log> getUserLogs(String spotifyUserId) {
         List<Log> logs = userService.findUser(spotifyUserId).getUserLogs();
-        Collections.reverse(logs);
+        logs.sort((log1, log2) -> log2.getDate().compareTo(log1.getDate()));
         return logs;
     }
 }
